@@ -3,9 +3,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: radial-gradient(circle, #fff0 12%, #000 100%), url("../../assets/sign-up/background-image.jpg");
+  background-image: radial-gradient(circle, #fff0 12%, #000 100%),
+    url("../../assets/sign-up/background-image.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+
+.sign-up__form-wrapper {
+  max-width: 600px;
 }

@@ -7,9 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignUpModule } from './sign-up/sign-up.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -17,6 +15,6 @@ import { SignUpModule } from './sign-up/sign-up.module';
     SignUpModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

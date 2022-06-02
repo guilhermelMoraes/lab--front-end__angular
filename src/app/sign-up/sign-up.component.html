@@ -1,5 +1,28 @@
 <div class="sign-up">
-  <main>
-    <h1>teste</h1>
+  <main class="sign-up__form-wrapper container p-2 m-2 bg-body rounded-1">
+    <h1>THE LAB</h1>
+    <form [formGroup]="localStrategyForm">
+      <div class="form-floating">
+        <input
+          type="email"
+          id="email-input"
+          class="form-control"
+          placeholder="john_doe@mail.com"
+          formControlName="email"
+        /><label for="email-input">E-mail address</label>
+      </div>
+
+      <div class="form-floating">
+        <input
+          type="text"
+          id="first-name--input"
+          class="form-control"
+          placeholder="john_doe@mail.com"
+          formControlName="email"
+        />
+        <label for="first-name--input">E-mail address</label>
+      </div>
+    </form>
+    <p>{{ localStrategyForm.get("email")?.value }}</p>
   </main>
 </div>
