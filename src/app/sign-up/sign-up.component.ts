@@ -12,7 +12,7 @@ function passwordMatchConfirmationValidator(
 ): ValidationErrors | null {
   const password = control.get('password')?.value;
   const confirmation = control.get('passwordConfirmation')?.value;
-  return password !== confirmation ? { match: true } : null;
+  return password !== confirmation ? { doesntMatch: true } : null;
 }
 
 @Component({
@@ -23,27 +23,30 @@ function passwordMatchConfirmationValidator(
 export class SignUpComponent {
   public showPassword = false;
 
-  public localStrategyForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    firstName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(45),
-      Validators.pattern(/^[a-zA-Z]+$/),
-    ]),
-    surname: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(45),
-      Validators.pattern(/^[a-zA-Z]+$/),
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(60),
-    ]),
-    passwordConfirmation: new FormControl('', [Validators.required]),
-  }, { validators: passwordMatchConfirmationValidator });
+  public localStrategyForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(45),
+        Validators.pattern(/^[a-zA-Z\s]*$/),
+      ]),
+      surname: new FormControl('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(45),
+        Validators.pattern(/^[a-zA-Z\s]*$/),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(60),
+      ]),
+      passwordConfirmation: new FormControl('', [Validators.required]),
+    },
+    { validators: passwordMatchConfirmationValidator }
+  );
 
   public get email(): AbstractControl | null {
     return this.localStrategyForm.get('email');
