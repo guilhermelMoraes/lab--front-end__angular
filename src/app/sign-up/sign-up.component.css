@@ -19,13 +19,13 @@
   width: 50%;
 }
 
-.form__error-message {
+.sign-up__error-message {
   visibility: hidden;
   height: 19px;
   display: inline-block;
 }
 
-.form__error-message--visible {
+.sign-up__error-message--visible {
   visibility: visible;
 }
 
