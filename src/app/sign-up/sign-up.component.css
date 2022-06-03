@@ -14,3 +14,21 @@
 .sign-up__form-wrapper {
   max-width: 600px;
 }
+
+.sign-up-form__input--side-by-side {
+  width: 50%;
+}
+
+.form__error-message {
+  visibility: hidden;
+  height: 19px;
+  display: inline-block;
+}
+
+.form__error-message--visible {
+  visibility: visible;
+}
+
+.sign-up__submit-button {
+  width: 100%;
+}

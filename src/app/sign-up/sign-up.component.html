@@ -1,28 +1,185 @@
 <div class="sign-up">
   <main class="sign-up__form-wrapper container p-2 m-2 bg-body rounded-1">
-    <h1>THE LAB</h1>
+    <h1 class="text-center mb-4">THE LAB</h1>
     <form [formGroup]="localStrategyForm">
-      <div class="form-floating">
+      <div class="form-floating mb-3">
         <input
           type="email"
           id="email-input"
           class="form-control"
-          placeholder="john_doe@mail.com"
-          formControlName="email"
-        /><label for="email-input">E-mail address</label>
-      </div>
-
-      <div class="form-floating">
-        <input
-          type="text"
-          id="first-name--input"
-          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              email?.invalid === true && (email?.dirty || email?.touched),
+            'is-valid': email?.invalid === false
+          }"
           placeholder="john_doe@mail.com"
           formControlName="email"
         />
-        <label for="first-name--input">E-mail address</label>
+        <label for="email-input">E-mail address</label>
+        <small
+          class="text-danger form__error-message"
+          [ngClass]="{'form__error-message--visible': email?.invalid && (email?.dirty || email?.touched)}"
+        >
+          <ng-container *ngIf="email?.errors?.['required']">
+            E-mail is a required field
+          </ng-container>
+
+          <ng-container *ngIf="email?.errors?.['email']">
+            E-mail must follow the "username@domain.com" pattern
+          </ng-container>
+        </small>
       </div>
+
+      <div class="input-group mb-3 justify-content-between">
+        <div class="sign-up-form__input--side-by-side form-floating">
+          <input
+            type="text"
+            id="first-name--input"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                firstName?.invalid === true &&
+                (firstName?.dirty || firstName?.touched),
+              'is-valid': firstName?.invalid === false
+            }"
+            placeholder="John"
+            formControlName="firstName"
+          />
+          <label for="first-name--input">First name</label>
+          <small
+            class="text-danger form__error-message"
+            [ngClass]="{'form__error-message--visible': firstName?.invalid && (firstName?.dirty || firstName?.touched)}"
+          >
+            <ng-container *ngIf="firstName?.errors?.['required']">
+              First name is a required field
+            </ng-container>
+
+            <ng-container *ngIf="firstName?.errors?.['minlength']">
+              First name must have at least 5 chars
+            </ng-container>
+
+            <ng-container *ngIf="firstName?.errors?.['maxlength']">
+              First name must have a max of 45 chars
+            </ng-container>
+
+            <ng-container *ngIf="firstName?.errors?.['pattern']">
+              Only letters are allowed for the first name
+            </ng-container>
+          </small>
+        </div>
+
+        <div class="sign-up-form__input--side-by-side form-floating">
+          <input
+            type="text"
+            id="surname--input"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                surname?.invalid === true &&
+                (surname?.dirty || surname?.touched),
+              'is-valid': surname?.invalid === false
+            }"
+            placeholder="John"
+            formControlName="surname"
+          />
+          <label for="surname--input">Surname</label>
+          <small
+            class="text-danger form__error-message"
+            [ngClass]="{'form__error-message--visible': surname?.invalid && (surname?.dirty || surname?.touched)}"
+          >
+            <ng-container *ngIf="surname?.errors?.['required']">
+              Surname is a required field
+            </ng-container>
+
+            <ng-container *ngIf="surname?.errors?.['minlength']">
+              Surname must have at least 5
+            </ng-container>
+
+            <ng-container *ngIf="surname?.errors?.['maxlength']">
+              Surname must have a max of 45 chars
+            </ng-container>
+
+            <ng-container *ngIf="surname?.errors?.['pattern']">
+              Only letters are allowed for the surname
+            </ng-container>
+          </small>
+        </div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password--input"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              password?.invalid === true &&
+              (password?.dirty || password?.touched),
+            'is-valid': password?.invalid === false
+          }"
+          placeholder="John"
+          formControlName="password"
+        />
+        <label for="password--input">Password</label>
+        <small
+          class="text-danger form__error-message"
+          [ngClass]="{'form__error-message--visible': password?.invalid && (password?.dirty || password?.touched)}"
+        >
+          <ng-container *ngIf="password?.errors?.['required']">
+            Password is a required field
+          </ng-container>
+
+          <ng-container *ngIf="password?.errors?.['minlength']">
+            Password must have at least 8 chars
+          </ng-container>
+
+          <ng-container *ngIf="password?.errors?.['maxlength']">
+            Password must have a max of 60 chars
+          </ng-container>
+        </small>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password-confirmation--input"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              (passwordConfirmation?.invalid === true || localStrategyForm?.errors?.['match']) &&
+              (passwordConfirmation?.dirty || passwordConfirmation?.touched),
+            'is-valid': passwordConfirmation?.invalid === false
+          }"
+          placeholder="John"
+          formControlName="passwordConfirmation"
+        />
+        <label for="password-confirmation--input">Password confirmation</label>
+        <small
+          class="text-danger form__error-message"
+          [ngClass]="{'form__error-message--visible': (passwordConfirmation?.invalid || localStrategyForm?.errors?.['match']) && (passwordConfirmation?.dirty || passwordConfirmation?.touched)}"
+        >
+          <ng-container *ngIf="passwordConfirmation?.errors?.['required']">
+            Password confirmation is a required field
+          </ng-container>
+
+          <ng-container *ngIf="!passwordConfirmation?.errors?.['required'] && localStrategyForm?.errors?.['match']">
+            Password and password confirmation are different
+          </ng-container>
+        </small>
+      </div>
+
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" role="switch" id="show-hide-password"
+          (click)="changePasswordInputType()" [checked]="showPassword" />
+        <label class="form-check-label" for="show-hide-password">
+          {{ showPassword ? 'Hide ' : 'Show ' }}
+          password
+        </label>
+      </div>
+      <button type="button" class="sign-up__submit-button btn btn-primary btn-lg fw-bold mb-3">
+        SUBMIT
+      </button>
     </form>
-    <p>{{ localStrategyForm.get("email")?.value }}</p>
+    <small>*All the fields are required</small>
   </main>
 </div>
