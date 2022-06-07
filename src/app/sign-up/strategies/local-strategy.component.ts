@@ -1,13 +1,7 @@
-import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import LocalSignUpDto from './sign-up.dto';
-import { SignUpService } from './sign-up.service';
+import { Component } from "@angular/core";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import LocalSignUpDto from "../sign-up.dto";
+import { SignUpService } from "../sign-up.service";
 
 function passwordMatchConfirmationValidator(
   control: AbstractControl
@@ -18,11 +12,11 @@ function passwordMatchConfirmationValidator(
 }
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  selector: 'sign-up-local-strategy',
+  templateUrl: './local-strategy.component.html',
+  styleUrls: ['../sign-up.component.css'],
 })
-export class SignUpComponent {
+export class LocalStrategyComponent {
   private readonly _signUpService: SignUpService;
   public showPassword = false;
   public localStrategyForm = new FormGroup(
