@@ -1,7 +1,13 @@
-import { Component } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import LocalSignUpDto from "../sign-up.dto";
-import { SignUpService } from "../sign-up.service";
+import { Component } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import LocalSignUpDto from '../sign-up.dto';
+import { SignUpService } from '../sign-up.service';
 
 function passwordMatchConfirmationValidator(
   control: AbstractControl
