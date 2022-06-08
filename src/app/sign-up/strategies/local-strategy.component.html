@@ -199,13 +199,13 @@
       localStrategyForm?.status === 'PENDING'
     "
   >
-    <ng-container *ngIf="localStrategyForm?.status === 'PENDING'">
+    <ng-container
+      *ngIf="localStrategyForm?.status === 'PENDING'; else submitCopy"
+    >
       <div class="spinner-border text-light" role="status"></div>
     </ng-container>
 
-    <ng-container *ngIf="localStrategyForm?.status !== 'PENDING'">
-      SUBMIT
-    </ng-container>
+    <ng-template #submitCopy> SUBMIT </ng-template>
   </button>
 </form>
 <small>*All the fields are required</small>

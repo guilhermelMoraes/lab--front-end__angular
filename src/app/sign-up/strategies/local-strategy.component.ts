@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import LocalSignUpDto from '../sign-up.dto';
-import { SignUpService } from '../sign-up.service';
 
 function passwordMatchConfirmationValidator(
   control: AbstractControl
@@ -23,41 +22,44 @@ function passwordMatchConfirmationValidator(
   styleUrls: ['../sign-up.component.css'],
 })
 export class LocalStrategyComponent {
-  private readonly _signUpService: SignUpService;
+  @Output()
+  public readonly userSubmitted = new EventEmitter<LocalSignUpDto>();
+
   public showPassword = false;
   public localStrategyForm = new FormGroup(
     {
-      email: new FormControl('guilherme.lmoraes32@gmail.com', [
-        Validators.required,
-        Validators.email,
-      ]),
-      firstName: new FormControl('Guilherme', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(45),
-        Validators.pattern(/^[a-zA-Z\s]*$/),
-      ]),
-      surname: new FormControl('Leite Moraes', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(45),
-        Validators.pattern(/^[a-zA-Z\s]*$/),
-      ]),
-      password: new FormControl('Thisway@90', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(60),
-      ]),
-      passwordConfirmation: new FormControl('Thisway@90', [
+      email: new FormControl('', {
+        validators: [Validators.required, Validators.email],
+      }),
+      firstName: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(45),
+          Validators.pattern(/^[a-zA-Z\s]*$/),
+        ],
+      }),
+      surname: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(45),
+          Validators.pattern(/^[a-zA-Z\s]*$/),
+        ],
+      }),
+      password: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(60),
+        ],
+      }),
+      passwordConfirmation: new FormControl('', [
         Validators.required,
       ]),
     },
-    { validators: passwordMatchConfirmationValidator }
+    { validators: [passwordMatchConfirmationValidator] }
   );
-
-  constructor(signUpService: SignUpService) {
-    this._signUpService = signUpService;
-  }
 
   public get email(): AbstractControl | null {
     return this.localStrategyForm.get('email');
@@ -87,7 +89,7 @@ export class LocalStrategyComponent {
     const { email, firstName, surname, password, passwordConfirmation } =
       this.localStrategyForm.value;
 
-    const userProps: LocalSignUpDto = {
+    const userProperties: LocalSignUpDto = {
       email,
       fullName: {
         firstName,
@@ -97,11 +99,6 @@ export class LocalStrategyComponent {
       passwordConfirmation,
     };
 
-    this._signUpService.submitNewUser(userProps).subscribe({
-      next: (result: string): void => {
-        console.log(result);
-      },
-      error: (error: Error): void => console.log('teste no component', error),
-    });
+    this.userSubmitted.emit(userProperties);
   }
 }
