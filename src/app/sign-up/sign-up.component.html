@@ -2,6 +2,7 @@
   <main class="sign-up__form-wrapper container p-2 m-2 bg-body rounded-1">
     <h1 class="text-center mb-4">THE LAB</h1>
     <sign-up-local-strategy
+      [submissionSucceeded]="submissionSucceeded"
       (userSubmitted)="submitNewUser($event)"
     ></sign-up-local-strategy>
   </main>

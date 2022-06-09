@@ -1,10 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   ValidationErrors,
-  Validators,
+  Validators
 } from '@angular/forms';
 import LocalSignUpDto from '../sign-up.dto';
 
@@ -21,11 +28,15 @@ function passwordMatchConfirmationValidator(
   templateUrl: './local-strategy.component.html',
   styleUrls: ['../sign-up.component.css'],
 })
-export class LocalStrategyComponent {
+export class LocalStrategyComponent implements OnChanges {
   @Output()
   public readonly userSubmitted = new EventEmitter<LocalSignUpDto>();
 
+  @Input()
+  public submissionSucceeded?: boolean;
+
   public showPassword = false;
+
   public localStrategyForm = new FormGroup(
     {
       email: new FormControl('', {
@@ -61,6 +72,16 @@ export class LocalStrategyComponent {
     { validators: [passwordMatchConfirmationValidator] }
   );
 
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['submissionSucceeded']?.currentValue === false) {
+      this.submissionFailed();
+    }
+
+    if (changes['submissionSucceeded']?.currentValue) {
+      this.submissionSucceed();
+    }
+  }
+
   public get email(): AbstractControl | null {
     return this.localStrategyForm.get('email');
   }
@@ -85,6 +106,15 @@ export class LocalStrategyComponent {
     this.showPassword = !this.showPassword;
   }
 
+  private submissionFailed(): void {
+    this.localStrategyForm.enable();
+  }
+
+  private submissionSucceed(): void {
+    this.localStrategyForm.reset();
+    this.localStrategyForm.enable();
+  }
+
   public submitNewUser(): void {
     const { email, firstName, surname, password, passwordConfirmation } =
       this.localStrategyForm.value;
@@ -100,5 +130,7 @@ export class LocalStrategyComponent {
     };
 
     this.userSubmitted.emit(userProperties);
+    this.localStrategyForm.disable();
+    this.localStrategyForm.markAsPending();
   }
 }

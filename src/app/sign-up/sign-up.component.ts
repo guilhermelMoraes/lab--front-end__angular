@@ -9,20 +9,20 @@ import { SignUpService } from './sign-up.service';
 })
 export class SignUpComponent {
   private readonly _signUpService: SignUpService;
+  public submissionSucceeded?: boolean;
 
   constructor(signUpService: SignUpService) {
     this._signUpService = signUpService;
   }
 
   public submitNewUser(userProperties: LocalSignUpDto): void {
+    this.submissionSucceeded = undefined;
     this._signUpService.submitNewUser(userProperties).subscribe({
       next: (result: string): void => {
-        console.log(result);
+        this.submissionSucceeded = true;
       },
-      error: (error: Error): void => {
-        const statusCode = Number(error.message.split(':')[0]);
-        if (statusCode === 409) {
-        }
+      error: (error): void => {
+        this.submissionSucceeded = false;
       },
     });
   }

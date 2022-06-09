@@ -20,6 +20,8 @@ export class SignUpService {
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
+    console.log(error);
+
     return throwError(
       (): Error => new Error(`${error.status}: ${error.error}`)
     );
